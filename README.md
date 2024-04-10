@@ -1,1 +1,1 @@
-# digital-ocean-infra
+# Digital Ocean Infra

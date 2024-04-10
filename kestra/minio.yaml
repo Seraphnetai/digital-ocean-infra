@@ -1,0 +1,16 @@
+secrets:
+  kestra:
+    # STORAGE CONFIGURATION
+    # https://kestra.io/docs/administrator-guide/configuration/storage
+    storage:
+      type: minio
+      minio:
+        endpoint: minio.minio-operator.svc.cluster.local
+        port: 80
+        accessKey: kestra
+        secret-key: <minio-secret-key>
+        secure: false
+        bucket: kestra
+
+minio:
+  enabled: false

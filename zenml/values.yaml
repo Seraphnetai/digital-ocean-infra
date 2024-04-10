@@ -1,0 +1,102 @@
+# ZenML server related options.
+zenml:
+  debug: false
+
+  # Flag to enable/disable the tracking process of the analytics
+  analyticsOptIn: false
+
+  # The ZenML authentication scheme. Use one of:
+  # 
+  # NO_AUTH - No authentication
+  # HTTP_BASIC - HTTP Basic authentication
+  # OAUTH2_PASSWORD_BEARER - OAuth2 password bearer with JWT tokens
+  authType: OAUTH2_PASSWORD_BEARER
+
+  # The secret key used to sign JWT tokens. Only relevant if the
+  # OAUTH2_PASSWORD_BEARER authentication scheme is used. This should be set to
+  # a random string with a recommended length of at least 32 characters, e.g.:
+  #
+  #   ```python
+  #   from secrets import token_hex
+  #   token_hex(32)
+  #   ```
+  #   
+  # or:
+  #
+  #   ```shell
+  #   openssl rand -hex 32
+  #   ```
+  #
+  # If not explicitly set, a random key will be generated when the helm
+  # chart is installed and reused for all subsequent upgrades.
+  jwtSecretKey:
+
+  # Secrets store settings. This is used to store centralized secrets.
+  secretsStore:
+
+    # Set to false to disable the secrets store.
+    enabled: true
+
+    # The type of secrets store to use. Use one of:
+    #
+    # sql - Use the same SQL database as the ZenML server
+    # aws - Use the AWS Secrets Manager as a secrets store
+    # gcp - Use the GCP Secrets Manager as a secrets store
+    # azure - Use the Azure Key Vault as a secrets store
+    # hashicorp - Use the HashiCorp Vault as a secrets store
+    # custom - Use a custom secrets store implementation (needs a custom
+    #          ZenML server image with the custom secrets store implementation
+    #          installed)
+    #
+    # Depending on the type, additional configuration options may be required
+    # under the respective sections.
+    #
+    type: sql
+
+    # SQL secrets store configuration. Only relevant if the `sql` secrets store
+    # type is configured.
+    sql:
+
+      # The secret key used to encrypt secrets in the SQL database. Only relevant
+      # if the SQL secrets store type is used. This should be set to a random
+      # string with a recommended length of at least 32 characters, e.g.:
+      #
+      #   ```python
+      #   from secrets import token_hex
+      #   token_hex(32)
+      #   ```
+      #   
+      # or:
+      #
+      #   ```shell
+      #   openssl rand -hex 32
+      #   ```
+      #
+      # If not set, database secret encryption will be disabled.
+      #
+      # IMPORTANT: If you configure encryption for your SQL database secrets
+      # store, you should keep this value somewhere safe and secure, as it will be
+      # required to decrypt the secrets in the database. If you lose the
+      # encryption key, you will not be able to decrypt the secrets in the
+      # database and will have to reset them. You should not change this value
+      # after you have already configured encryption for your SQL database
+      # secrets store.
+      encryptionKey:
+
+    # HashiCorp Vault secrets store configuration. Only relevant if the `hashicorp`
+    # secrets store type is configured
+    hashicorp:
+
+      # The url of the HashiCorp Vault server
+      vault_addr: https://vault.example.com
+      # The token used to authenticate with the Vault server
+      vault_token:
+      # The Vault Enterprise namespace. Not required for Vault OSS.
+      vault_namespace:
+      # The maximum number of secret versions to keep. If not set, the default
+      # value of 1 will be used (only the latest version will be kept).
+      max_versions:
+
+
+  ingress:
+    enabled: false

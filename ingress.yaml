@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-dev
+spec:
+  rules:
+  - host: zenml.192.168.1.113.nip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: zenml-server
+            port:
+              number: 80
+  - host: kestra.192.168.1.113.nip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: kestra-service
+            port:
+              number: 8080
+  - host: labelstudio.192.168.1.113.nip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: labelstudio-ls-app
+            port:
+              number: 80
